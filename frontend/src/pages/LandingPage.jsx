@@ -12,7 +12,7 @@ function LandingPage() {
             <p className='hero-text'>Organize your<br/>
             thoughts. <span className='boost'> BOOST </span> <br/>
             your productivity.</p>
-            <button><Link to='/signup'> Get Started → </Link></button>
+            <Link to='/signup'><button> Get Started → </button></Link>
           </div>
       </>   
     )

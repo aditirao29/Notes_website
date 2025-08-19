@@ -1,5 +1,5 @@
-import React from 'react';
 import './Dashboard.css';
+import toggle from '../assets/night-mode.png'
 import { FaChevronDown, FaSearch } from 'react-icons/fa';
 
 function Dashboard() {
@@ -8,6 +8,7 @@ function Dashboard() {
       <aside className="sidebar">
         <button className="new-folder-btn">+ New Folder</button>
 
+        <hr/>
         <nav className="folder-nav">
           <div className="section-title">My Folders <FaChevronDown className="chevron" /></div>
           <div className="folder-item active">
@@ -23,6 +24,7 @@ function Dashboard() {
 
       <main className="main-content">
         <header className="top-bar">
+          <img className='dark' src={toggle} alt='light dark toggle icon'/>
           <div className="search-box">
             <FaSearch className="search-icon" />
             <input type="text" placeholder="Search in 'New Folder'" />
@@ -31,8 +33,9 @@ function Dashboard() {
         </header>
 
         <section className="empty-state">
-          <h1>Create New Folder to Start</h1>
-          <div className="folder-icon" />
+          <h1 id='placeholder-text'>Create New Folder</h1>
+          <h1 id='placeholder-text'>to Start</h1>
+          <i class="fi fi-tr-folder-open"></i>
         </section>
       </main>
     </div>

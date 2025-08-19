@@ -57,3 +57,7 @@ body, html {
 .hero-section button:hover {
   background: linear-gradient(to right, #c73c00, #581b00);
 }
+
+Link {
+  color: white;
+}
