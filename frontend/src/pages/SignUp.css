@@ -1,0 +1,242 @@
+.black-card {
+  background-color: #3a3a3a;
+  height: 100vh;
+  width:100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.notefy {
+  position: absolute;
+  top: 20px;
+  left: 40px;
+  color: white;
+  font-size: 40px;
+  font-weight: bold;
+  font-family: 'Segoe UI', sans-serif;
+  letter-spacing: 1px;
+  z-index: 10;
+  text-shadow: 4px 4px rgba(0, 0, 0, 0.3);
+}
+
+.signup-container {
+  display: flex;
+  background-color: white;
+  border-radius: 20px;
+  box-shadow: 16px 8px 16px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  max-width: 900px;
+  width: 90%;
+  height: 600px;
+  font-family: sans-serif;
+}
+
+.signup-form > div {
+  display: flex;
+  gap: 12px;
+}
+
+.fname, .lname {
+  flex: 1;
+  max-width: 151.5px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #fff;
+}
+
+.text {
+    font-size: 45px;
+    color:#3a3a3a;
+    font-weight: bold;
+    text-shadow: 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.signup-left {
+  flex: 1;
+  background: linear-gradient(to bottom right, #FFC096);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 650px;
+  position: relative;
+  overflow: hidden;
+}
+
+.signup-left::before {
+  content: "";
+  position: absolute;
+  top: -80px;
+  left: -80px;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, #ff905d, transparent 1000%);
+  filter: blur(60px);
+  z-index: 0;
+}
+
+.signup-left::after {
+  content: "";
+  position: absolute;
+  bottom: -80px;
+  right: -80px;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, #ff905d, transparent 1000%);
+  filter: blur(60px);
+  z-index: 0;
+}
+
+.signup-left h2 {
+  margin-bottom: 20px;
+}
+
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  max-width: 1000px;
+}
+
+
+.signup-left h2,
+.signup-form {
+  position: relative;
+  z-index: 2;
+}
+
+.signup-form input {
+  margin: 10px 0;
+  padding: 12px;
+  border: 1px solid #3a3a3a;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  color: #3a3a3a;
+  outline: none;
+}
+
+.signup-form button {
+  padding: 8px 90px;
+  background-color: #FF783F;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  margin-top: 25px;
+  cursor: pointer;
+  align-self: center;
+  max-width: 250px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  outline: none;
+}
+
+.signup-form p {
+  margin-top: 30px;
+  font-size: 1rem;
+  align-self: center;
+  color: #3a3a3a;
+}
+
+.signup-form a {
+  color: #ff5100;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.signup-right {
+  flex: 1;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.signup-right img {
+  max-width: 75%;
+  height: auto;
+}
+
+.signup-form button:hover {
+  background-color: #ff601d;
+  border: 0px solid #ff601d;
+}
+
+@media screen and (max-width: 900px) {
+  .signup-right {
+    display: none;
+  }
+
+  .signup-container {
+    width: 95%;
+    max-width: 500px;
+    height: auto;
+    flex-direction: column;
+  }
+
+  .signup-left {
+    width: 100%;
+    padding: 2rem 1.5rem;
+  }
+
+  .welcome-text {
+    font-size: 32px;
+    text-align: center;
+  }
+
+  .signup-form {
+    width: 100%;
+  }
+
+  .signup-form input {
+    font-size: 1rem;
+    padding: 12px;
+  }
+
+  .signup-form button {
+    width: 100%;
+    font-size: 1rem;
+  }
+
+  .signup-form p {
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  .notefy {
+    font-size: 28px;
+    top: 15px;
+    left: 20px;
+  }
+
+  .signup-left::before {
+    filter: blur(60px);
+    top: -80px;
+    left: -80px;
+    width: 170px;
+    height: 170px;
+  }
+
+  .fname, .lname {
+    flex: 1;
+    max-width: 50%;
+    padding: 10%;
+    border-radius: 5px;
+    border: 1px solid #fff;
+  }
+
+  .error_msg {
+    width: 370px;
+    padding: 15px;
+    margin: 5px 0;
+    font-size: 14px;
+    background-color: #ff5100;
+    color: white;
+    border-radius: 5px;
+    text-align: center;
+  }
+
+}
+

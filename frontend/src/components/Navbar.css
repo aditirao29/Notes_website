@@ -1,0 +1,77 @@
+.navbar {
+  background-color: #FFD2BF;
+  color: #3a3a3a;
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  align-items: center;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.logo {
+  font-size: 30px;
+  font-weight: bold;
+  padding-left: 3rem;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 3rem;
+  padding-top: 4px;
+}
+
+.nav-links li a {
+  color: #3a3a3a;
+  text-decoration: none;
+  font-size: 18px;
+  border-bottom: 4px solid transparent;
+  transition: border-color 0.2s ease;
+}
+
+.navbuttons button {
+    gap: 0.5rem;
+    color: #3a3a3a;
+}
+
+.together {
+    display: flex;
+}
+
+.contact {
+    padding-right: 2.5rem;
+}
+
+.signup, .signup:focus {
+    background-color: #FF783F;
+    padding: 0.3rem 1rem;
+    outline: none;
+    margin-right: 0.5rem;
+}
+
+.login, .login:focus {
+  background-color: #FFD2BF;
+  border: 2px solid #FF783F;
+  padding: 0.3rem 1rem;
+  font-size: 17px;
+  margin-right: 3rem; 
+  outline: none;
+}
+
+.signup:hover {
+  background-color: #ff601d;
+  border: 1px solid #ff601d;
+}
+
+.login:hover {
+  background-color: #ffba9c;
+  border: 2px solid #ffba9c;
+}
+
+.nav-links li a:hover, .navlinks li a:focus {
+  border-bottom: 4px solid #FF783F;
+}

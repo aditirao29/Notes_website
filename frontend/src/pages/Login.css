@@ -1,0 +1,264 @@
+.black-card {
+  background-color: #3a3a3a;
+  height: 100vh;
+  width:100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.notefy {
+  position: absolute;
+  top: 20px;
+  left: 40px;
+  color: white;
+  font-size: 40px;
+  font-weight: bold;
+  font-family: 'Segoe UI', sans-serif;
+  letter-spacing: 1px;
+  z-index: 10;
+  text-shadow: 4px 4px rgba(0, 0, 0, 0.3);
+}
+
+.login-container {
+  display: flex;
+  background-color: white;
+  border-radius: 20px;
+  box-shadow: 16px 8px 16px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  max-width: 900px;
+  width: 90%;
+  height: 600px;
+  font-family: sans-serif;
+}
+
+.welcome-text {
+    font-size: 45px;
+    color:#3a3a3a;
+    font-weight: bold;
+    text-shadow: 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.login-left {
+  flex: 1;
+  background-color: #FFC096;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 650px;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.login-left::before {
+  content: "";
+  position: absolute;
+  top: -80px;
+  left: -80px;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, #ff905d, transparent 1000%);
+  filter: blur(60px);
+  z-index: 0;
+}
+
+.login-left::after {
+  content: "";
+  position: absolute;
+  bottom: -80px;
+  right: -80px;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, #ff905d, transparent 1000%);
+  filter: blur(60px);
+  z-index: 0;
+}
+
+.login-left h2 {
+  margin-bottom: 20px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  max-width: 1000px;
+}
+
+.login-form input {
+  margin: 10px 0;
+  padding: 12px;
+  border: 1px solid #3a3a3a;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  color: #3a3a3a;
+  outline: none;
+}
+
+.login-form button {
+  padding: 8px 90px;
+  background-color: #FF783F;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  margin-top: 25px;
+  cursor: pointer;
+  align-self: center;
+  max-width: 250px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  outline: none;
+}
+
+.login-form p {
+  margin-top: 30px;
+  font-size: 1rem;
+  align-self: center;
+  color: #3a3a3a;
+}
+
+.login-form a {
+  color: #ff5100;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.login-right {
+  flex: 1;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-right img {
+  max-width: 75%;
+  height: auto;
+}
+
+.login-form button:hover {
+  background-color: #ff601d;
+  border: 0px solid #ff601d;
+}
+
+/*Responsive*/
+/*@media screen and (max-width: 768px) {
+  .login-container {
+    flex-direction: column;
+    height: auto;
+    width: 90%;
+    max-width: 500px;
+    margin-top: 20%;
+  }
+
+  .login-left, .login-right {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .login-left {
+    padding: 2rem 1.5rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .login-form {
+    width: 100%;
+  }
+
+  .welcome-text {
+    font-size: 32px;
+    text-align: center;
+  }
+
+  .login-form input {
+    padding: 10px;
+    font-size: 1rem;
+  }
+
+  .login-form button {
+    padding: 10px;
+    font-size: 1rem;
+    width: 100%;
+  }
+
+  .login-form p {
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  .login-right {
+    padding: 2rem 1rem;
+  }
+
+  .login-right img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .notefy {
+    display: none;
+  }
+}*/
+
+@media screen and (max-width: 900px) {
+  .login-right {
+    display: none;
+  }
+
+  .login-container {
+    width: 95%;
+    max-width: 500px;
+    height: auto;
+    flex-direction: column;
+  }
+
+  .login-left {
+    width: 100%;
+    padding: 2rem 1.5rem;
+  }
+
+  .welcome-text {
+    font-size: 32px;
+    text-align: center;
+  }
+
+  .login-form {
+    width: 100%;
+  }
+
+  .login-form input {
+    font-size: 1rem;
+    padding: 12px;
+  }
+
+  .login-form button {
+    width: 100%;
+    font-size: 1rem;
+  }
+
+  .login-form p {
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  .notefy {
+    font-size: 28px;
+    top: 15px;
+    left: 20px;
+  }
+
+  .login-left::before {
+    filter: blur(60px);
+    top: -80px;
+    left: -80px;
+    width: 170px;
+    height: 170px;
+  }
+
+}
+
+
