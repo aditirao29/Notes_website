@@ -39,7 +39,7 @@ function SignUp() {
                         <input type='password' onChange={handleChange} name='password' value={data.password} placeholder='Password' required/>
                         {error && <div className='error_msg'>{error}</div>}
                         <button type='submit'>Sign Up</button>
-                        <p>Already have an account?<Link to='/login'><u>Login</u></Link>.</p>
+                        <p>Already have an account? <Link to='/login'><u>Login</u></Link>.</p>
                     </form>
                 </div>
                 <div className='signup-right'>

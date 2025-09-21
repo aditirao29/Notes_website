@@ -4,10 +4,11 @@ module.exports = function (req, res, next) {
     const authHeader = req.header("Authorization");
     if (!authHeader) return res.status(401).json({ message: "Access denied. No token provided." });
 
-    const token = authHeader.split(" ")[1];
-    if (!token) return res.status(401).json({ message: "Access denied. No token provided." });
+    const [scheme,token] = authHeader.split(" ");
+    if (scheme!== "Bearer" || !token) 
+        return res.status(401).json({ message: "Access denied. No token provided." });
     try {
-        const verified = jwt.verify(token, process.env.JWT_PRIVATE_KEY);
+        const verified = jwt.verify(token, process.env.JWTPRIVATEKEY);
         req.user = verified;
         next();
     } catch (err) {

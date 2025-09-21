@@ -7,6 +7,7 @@ const userRoutes = require('./routes/users');
 const authRoutes = require('./routes/auth');
 const folderRoutes = require("./routes/folders");
 const noteRoutes = require("./routes/notes");
+const jwt = require('jsonwebtoken');
 
 connection()
 
