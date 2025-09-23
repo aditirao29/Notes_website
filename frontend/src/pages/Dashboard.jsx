@@ -36,7 +36,6 @@ function Dashboard() {
     setNotes(data.notes || []);
     setSelectedFolderId(folderId);
     setSelectedNote(null);
-    // Close mobile menu when folder is selected
     setIsMobileMenuOpen(false);
   }
 
@@ -197,7 +196,7 @@ function Dashboard() {
           {renderFolderList("other", otherOpen, () => setOtherOpen(!otherOpen),"Other Folders")}
           
           <div className="other-items">
-            <p>Saved PDFs (?)</p>
+            <p>Saved PDFs</p>
             <p>Trash</p>
           </div>
         </nav>
@@ -302,7 +301,6 @@ function Dashboard() {
                         n._id === selectedNote._id ? { ...n, ...updated } : n
                       )
                     );
-                    // Clear inline edit state when title changes from editor
                     if (updated.title && inlineEditNoteId === selectedNote._id) {
                       setInlineEditNoteId(null);
                     }

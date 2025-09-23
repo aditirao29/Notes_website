@@ -1,5 +1,3 @@
-/* Enhanced Dashboard Styles */
-
 .content-area {
   display: flex;
   flex-direction: column;
@@ -35,8 +33,8 @@
 }
 
 .left-pane {
-  background: #f8f9fa;
-  border: 1px solid #e9ecef;
+  background: #f5faff;
+  border: 1px solid #a8d4ff;
   border-radius: 12px;
   padding: 16px;
   display: flex;
@@ -49,8 +47,8 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 12px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid #e9ecef;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #6db6ff;
 }
 
 .new-note-btn {
@@ -126,7 +124,7 @@
 }
 
 .note-row.selected {
-  background: #e3f2fd;
+  background: #d1ecff;
   border-left: 3px solid #ff7f4f;
 }
 
@@ -141,11 +139,11 @@
 
 .editor-pane {
   background: #fff;
-  border: 1px solid #e9ecef;
+  border: 2px solid #dddddd;
   border-radius: 12px;
   padding: 20px;
   height: 100%;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  box-shadow: 4px 4px 4px rgba(0,0,0,0.05);
 }
 
 .dashboard-container {
@@ -345,7 +343,7 @@ hr {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
+  margin-bottom: 10px;
 }
 
 .search-box {
