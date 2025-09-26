@@ -1,14 +1,14 @@
-// src/components/Editor.jsx
 import React, { useEffect, useRef, useState } from "react";
 import { FaPlus, FaTrash } from "react-icons/fa";
 import "./Editor.css";
 
-export default function Editor({ note, folder, onChange }) {
+export default function Editor({ note, folder, onChange, onSummarize }) {
   const [title, setTitle] = useState(note.title);
   const [content, setContent] = useState(note.content || "");
   const [checklistItems, setChecklistItems] = useState(
     note.checklistItems || [{ id: Date.now(), text: "", completed: false }]
   );
+  const [isSummarizing, setIsSummarizing] = useState(false);
   const saveTimer = useRef(null);
 
   const isTodoFolder = folder?.category === "todo";
@@ -17,9 +17,9 @@ export default function Editor({ note, folder, onChange }) {
     setTitle(note.title);
     setContent(note.content || "");
     setChecklistItems(note.checklistItems || [{ id: Date.now(), text: "", completed: false }]);
-  }, [note._id]); // switch note reset
+    setIsSummarizing(false);
+  }, [note._id]);
 
-  // debounce save on changes
   useEffect(() => {
     if (!onChange) return;
     clearTimeout(saveTimer.current);
@@ -32,6 +32,16 @@ export default function Editor({ note, folder, onChange }) {
     }, 500);
     return () => clearTimeout(saveTimer.current);
   }, [title, content, checklistItems, isTodoFolder]);
+
+  const handleSummarize = async () => {
+    if (isSummarizing || !note.content) return;
+    setIsSummarizing(true);
+    try {
+      await onSummarize(note._id);
+    } finally {
+      setIsSummarizing(false);
+    }
+  };
 
   const addChecklistItem = () => {
     const newItem = { id: Date.now(), text: "", completed: false };
@@ -109,6 +119,15 @@ export default function Editor({ note, folder, onChange }) {
         onChange={(e) => setContent(e.target.value)}
         placeholder="Start typing…"
       />
+      <div className="summary-controls">
+        <button
+          className="summarize-btn"
+          onClick={handleSummarize}
+          disabled={isSummarizing || !note.content}
+        >
+          {isSummarizing ? "Summarizing..." : "Generate Summary"}
+        </button>
+      </div>
     </div>
   );
 }

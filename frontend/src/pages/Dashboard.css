@@ -420,6 +420,12 @@ i {
   margin-top: 0.25rem;
 }
 
+.fileicon {
+  height: 18rem;
+  margin-left: 16rem;
+  margin-top: 4rem;
+}
+
 .folder-list-nested {
   margin-left: 1rem;
 }
@@ -480,3 +486,23 @@ i {
   color: #999;
 }
 
+.summarize-btn {
+  background-color: #ff7f4f;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+  outline: none !important;
+  padding-top: 7px;
+  padding-bottom: 7px;
+}
+
+.summarize-btn:hover {
+  background-color: #ff6932;
+}
+
+.summarize-btn:active {
+  background-color: #ff581b;
+}

@@ -4,6 +4,7 @@ import toggle from '../assets/night-mode.png'
 import { FaChevronDown, FaSearch, FaPlus, FaFolder, FaFile, FaFolderOpen, FaBars, FaTimes } from 'react-icons/fa';
 import API from "../api";
 import Editor from "../components/Editor";
+import fileicon from "../assets/file_icon.png";
 
 function Dashboard() {
   const [folders,setFolders] = useState([]);
@@ -94,6 +95,19 @@ function Dashboard() {
     setSelectedNote((n) => (n && n._id === id ? data : n));
     setInlineEditNoteId(null);
   }
+  
+  const handleSummarizeNote = async (noteId) => {
+    try {
+      const { data } = await API.post(`/notes/${noteId}/summarize`);
+      
+      setNotes((prev) => [data, ...prev]);
+
+      setSelectedNote(data);
+      
+    } catch (error) {
+      console.error("Error generating summary:", error);
+    }
+  };
 
   const renderFolderList = (category, open, toggleOpen, title) => (
     <>
@@ -196,7 +210,6 @@ function Dashboard() {
           {renderFolderList("other", otherOpen, () => setOtherOpen(!otherOpen),"Other Folders")}
           
           <div className="other-items">
-            <p>Saved PDFs</p>
             <p>Trash</p>
           </div>
         </nav>
@@ -305,11 +318,13 @@ function Dashboard() {
                       setInlineEditNoteId(null);
                     }
                   }}
+                  onSummarize={handleSummarizeNote}
                 />
               ) : (
                 <div className="empty-state">
-                  <h1>Select or create a file</h1>
-                  <div className="folder-icon" />
+                  <h1 id="placeholder-text">Select or</h1>
+                  <h1 id="placeholder-text">Create a File</h1>
+                  <img className="fileicon" src={fileicon} alt="file icon" />
                 </div>
               )}
               </div>
@@ -327,4 +342,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;          
+export default Dashboard;
