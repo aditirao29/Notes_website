@@ -1,7 +1,7 @@
 import React, {useEffect,useMemo,useState} from "react";
 import './Dashboard.css';
-import toggle from '../assets/night-mode.png'
-import { FaChevronDown, FaSearch, FaPlus, FaFolder, FaFile, FaFolderOpen, FaBars, FaTimes } from 'react-icons/fa';
+import toggle from '../assets/night-mode.png' 
+import { FaChevronDown, FaSearch, FaPlus, FaFolder, FaFile, FaFolderOpen, FaBars, FaTimes, FaSun, FaMoon } from 'react-icons/fa';
 import API from "../api";
 import Editor from "../components/Editor";
 import fileicon from "../assets/file_icon.png";
@@ -19,10 +19,15 @@ function Dashboard() {
   const [otherOpen, setOtherOpen] = useState(false);
   const [showNewFolderMenu, setShowNewFolderMenu] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false); 
 
   useEffect(() => {
     loadRoot();
   },[]);
+  
+  const toggleDarkMode = () => {
+    setIsDarkMode((prev) => !prev);
+  };
   
   async function loadRoot() {
     const {data} = await API.get("/folders");
@@ -168,7 +173,7 @@ function Dashboard() {
   }, [selectedFolderId, folders]);
 
   return (
-    <div className="dashboard-container">
+    <div className={`dashboard-container ${isDarkMode ? 'dark-mode' : ''}`}>
       {isMobileMenuOpen && (
         <div 
           className="sidebar-overlay active" 
@@ -223,7 +228,9 @@ function Dashboard() {
           >
             <FaBars />
           </button>
-          <img className="dark" src={toggle} alt="light dark toggle icon" />
+          <button className="dark-mode-toggle-btn" onClick={toggleDarkMode}>
+            {isDarkMode ? <FaSun className="toggle-icon" /> : <FaMoon className="toggle-icon" />}
+          </button>
           <div className="search-box">
             <FaSearch className="search-icon" />
             <input 
@@ -319,6 +326,7 @@ function Dashboard() {
                     }
                   }}
                   onSummarize={handleSummarizeNote}
+                  isDarkMode={isDarkMode}
                 />
               ) : (
                 <div className="empty-state">

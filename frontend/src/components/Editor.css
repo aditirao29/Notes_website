@@ -34,15 +34,13 @@
   box-shadow: 0 1px 0 rgba(0,0,0,0.04), 0 0 0 1px rgba(0,0,0,0.06) inset;
 }
 
-/* Lined paper: horizontal rules every 28px (match line-height) */
 .lined-paper {
   background-image:
     linear-gradient(to bottom, transparent 27px, rgba(0,0,0,0.08) 28px);
   background-size: 100% 28px;
-  background-attachment: local; /* keep lines aligned while scrolling */
+  background-attachment: local;
 }
 
-/* Checklist Styles */
 .checklist-container {
   flex: 1;
   display: flex;
@@ -128,4 +126,69 @@
   background: #e9ecef;
   border-color: #ff7f4f;
   color: #ff7f4f;
+}
+
+
+/* --- DARK MODE STYLES (Dark Grayish) --- */
+.editor-root.dark-mode-editor .editor-title,
+.editor-root.dark-mode-editor .editor-area {
+  background-color: #444444;
+  border-color: #555555;
+  color: #f1f1f1;
+}
+
+.editor-root.dark-mode-editor .editor-area::placeholder,
+.editor-root.dark-mode-editor .editor-title::placeholder {
+  color: #cccccc;
+}
+
+.editor-root.dark-mode-editor .lined-paper {
+  background-image:
+    linear-gradient(to bottom, transparent 27px, rgba(255,255,255,0.1) 28px); 
+}
+
+.editor-root.dark-mode-editor .checklist-item {
+  border-bottom-color: #555555;
+}
+
+.editor-root.dark-mode-editor .checklist-input {
+  color: #f1f1f1;
+}
+
+.editor-root.dark-mode-editor .checklist-input:focus {
+  background: #555555;
+}
+
+.editor-root.dark-mode-editor .checklist-input.completed {
+  color: #888888;
+}
+
+.editor-root.dark-mode-editor .checklist-remove-btn {
+  color: #cccccc;
+  opacity: 0.8;
+}
+
+.editor-root.dark-mode-editor .checklist-remove-btn:hover:not(:disabled) {
+  color: #ff4444;
+  background: #555555;
+}
+
+.editor-root.dark-mode-editor .add-checklist-btn {
+  background: #555555;
+  border-color: #666666;
+  color: #f1f1f1;
+}
+
+.editor-root.dark-mode-editor .add-checklist-btn:hover {
+  background: #666666;
+  border-color: #ff7f4f;
+  color: #ff7f4f;
+}
+
+.editor-root.dark-mode-editor .editor-title::placeholder {
+  color: #cccccc;
+}
+
+.editor-root.dark-mode-editor .checklist-input::placeholder {
+  color: #cccccc;
 }

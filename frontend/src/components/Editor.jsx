@@ -2,28 +2,35 @@ import React, { useEffect, useRef, useState } from "react";
 import { FaPlus, FaTrash } from "react-icons/fa";
 import "./Editor.css";
 
-export default function Editor({ note, folder, onChange, onSummarize }) {
+export default function Editor({ note, folder, onChange, onSummarize, isDarkMode }) {
+  const isTodoFolder = folder?.category === "todo";
+  
   const [title, setTitle] = useState(note.title);
-  const [content, setContent] = useState(note.content || "");
+  const [content, setContent] = useState(note.content || ""); 
   const [checklistItems, setChecklistItems] = useState(
-    note.checklistItems || [{ id: Date.now(), text: "", completed: false }]
+    note.checklistItems && note.checklistItems.length > 0
+      ? note.checklistItems
+      : (isTodoFolder ? [{ id: Date.now(), text: "", completed: false }] : [])
   );
   const [isSummarizing, setIsSummarizing] = useState(false);
   const saveTimer = useRef(null);
 
-  const isTodoFolder = folder?.category === "todo";
-
   useEffect(() => {
     setTitle(note.title);
     setContent(note.content || "");
-    setChecklistItems(note.checklistItems || [{ id: Date.now(), text: "", completed: false }]);
+    setChecklistItems(
+      note.checklistItems && note.checklistItems.length > 0
+        ? note.checklistItems
+        : (folder?.category === "todo" ? [{ id: Date.now(), text: "", completed: false }] : [])
+    );
     setIsSummarizing(false);
-  }, [note._id]);
+  }, [note._id, folder]);
 
   useEffect(() => {
     if (!onChange) return;
     clearTimeout(saveTimer.current);
     saveTimer.current = setTimeout(() => {
+      // Logic for saving based on folder type
       if (isTodoFolder) {
         onChange({ title, checklistItems });
       } else {
@@ -64,7 +71,8 @@ export default function Editor({ note, folder, onChange, onSummarize }) {
 
   if (isTodoFolder) {
     return (
-      <div className="editor-root">
+      // Apply dark-mode-editor class if in dark mode
+      <div className={`editor-root ${isDarkMode ? 'dark-mode-editor' : ''}`}> 
         <input
           className="editor-title"
           value={title}
@@ -106,7 +114,8 @@ export default function Editor({ note, folder, onChange, onSummarize }) {
   }
 
   return (
-    <div className="editor-root">
+    // Apply dark-mode-editor class if in dark mode
+    <div className={`editor-root ${isDarkMode ? 'dark-mode-editor' : ''}`}>
       <input
         className="editor-title"
         value={title}
