@@ -1,6 +1,5 @@
 import React, {useEffect,useMemo,useState} from "react";
 import './Dashboard.css';
-import toggle from '../assets/night-mode.png' 
 import { FaChevronDown, FaSearch, FaPlus, FaFolder, FaFile, FaFolderOpen, FaBars, FaTimes, FaSun, FaMoon } from 'react-icons/fa';
 import API from "../api";
 import Editor from "../components/Editor";

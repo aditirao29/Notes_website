@@ -65,6 +65,7 @@
   align-items: center;
   gap: 6px;
   transition: background-color 0.2s;
+  outline: none !important;
 }
 
 .new-note-btn:hover {

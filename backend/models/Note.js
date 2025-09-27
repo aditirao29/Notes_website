@@ -29,24 +29,38 @@ function decrypt(text) {
 const noteSchema = new mongoose.Schema({
     title: { type: String, required: true },
     content: { type: String, default: "" },
+    todoList: { type: String, default: "" }, 
     folder: { type: mongoose.Schema.Types.ObjectId, ref: "Folder" },
     owner: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
 }, { timestamps: true });
 
 noteSchema.pre("save", function(next) {
-    if (this.isModified("content")) {
+    if (this.isModified("content") && this.content) {
         this.content = encrypt(this.content);
+    }
+    
+    if (this.isModified("todoList") && this.todoList) {
+        this.todoList = encrypt(this.todoList);
     }
     next();
 });
 
 noteSchema.methods.toJSON = function() {
     const obj = this.toObject();
+
     if (obj.content) {
         try {
             obj.content = decrypt(obj.content);
         } catch (e) {
             obj.content = "";
+        }
+    }
+
+    if (obj.todoList) {
+        try {
+            obj.todoList = decrypt(obj.todoList);
+        } catch (e) {
+            obj.todoList = ""; 
         }
     }
     return obj;

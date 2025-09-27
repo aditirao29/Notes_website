@@ -16,6 +16,7 @@ router.post("/", auth, async (req, res) => {
         const note = new Note({
             title: req.body.title,
             content: req.body.content || "",
+            todoList: req.body.todoList || "",
             folder: req.body.folder || req.body.folderId,
             owner: req.user._id
         });
@@ -41,10 +42,15 @@ router.patch("/:id", auth, async (req, res) => {
     try {
         const note = await Note.findOne({ _id: req.params.id, owner: req.user._id });
         if (!note) return res.status(404).json({ message: "Note not found" });
+
         if (typeof req.body.title === "string")
             note.title = req.body.title;
         if (typeof req.body.content === "string")
             note.content = req.body.content;
+
+        if (typeof req.body.todoList === "string")
+            note.todoList = req.body.todoList;
+            
         await note.save();
         res.json(note);
     } catch (err) {

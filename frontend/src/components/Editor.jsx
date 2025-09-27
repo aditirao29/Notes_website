@@ -7,22 +7,27 @@ export default function Editor({ note, folder, onChange, onSummarize, isDarkMode
   
   const [title, setTitle] = useState(note.title);
   const [content, setContent] = useState(note.content || ""); 
-  const [checklistItems, setChecklistItems] = useState(
-    note.checklistItems && note.checklistItems.length > 0
-      ? note.checklistItems
-      : (isTodoFolder ? [{ id: Date.now(), text: "", completed: false }] : [])
-  );
+  const initialChecklist = isTodoFolder && note.todoList 
+   ? JSON.parse(note.todoList) 
+    : (isTodoFolder ? [{ id: Date.now(), text: "", completed: false }] : []);
+    
+  const [checklistItems, setChecklistItems] = useState(initialChecklist);
   const [isSummarizing, setIsSummarizing] = useState(false);
   const saveTimer = useRef(null);
 
   useEffect(() => {
     setTitle(note.title);
     setContent(note.content || "");
+
+    const currentFolderIsTodo = folder?.category === "todo";
+    const listFromNote = currentFolderIsTodo && note.todoList ? JSON.parse(note.todoList) : [];
+    
     setChecklistItems(
-      note.checklistItems && note.checklistItems.length > 0
-        ? note.checklistItems
-        : (folder?.category === "todo" ? [{ id: Date.now(), text: "", completed: false }] : [])
+      listFromNote.length > 0
+        ? listFromNote
+        : (currentFolderIsTodo ? [{ id: Date.now(), text: "", completed: false }] : [])
     );
+    
     setIsSummarizing(false);
   }, [note._id, folder]);
 
@@ -30,15 +35,17 @@ export default function Editor({ note, folder, onChange, onSummarize, isDarkMode
     if (!onChange) return;
     clearTimeout(saveTimer.current);
     saveTimer.current = setTimeout(() => {
-      // Logic for saving based on folder type
       if (isTodoFolder) {
-        onChange({ title, checklistItems });
+        onChange({ 
+          title, 
+          todoList: JSON.stringify(checklistItems) 
+        });
       } else {
         onChange({ title, content });
       }
     }, 500);
     return () => clearTimeout(saveTimer.current);
-  }, [title, content, checklistItems, isTodoFolder]);
+  }, [title, content, checklistItems, isTodoFolder]); 
 
   const handleSummarize = async () => {
     if (isSummarizing || !note.content) return;
@@ -71,7 +78,6 @@ export default function Editor({ note, folder, onChange, onSummarize, isDarkMode
 
   if (isTodoFolder) {
     return (
-      // Apply dark-mode-editor class if in dark mode
       <div className={`editor-root ${isDarkMode ? 'dark-mode-editor' : ''}`}> 
         <input
           className="editor-title"
@@ -114,7 +120,6 @@ export default function Editor({ note, folder, onChange, onSummarize, isDarkMode
   }
 
   return (
-    // Apply dark-mode-editor class if in dark mode
     <div className={`editor-root ${isDarkMode ? 'dark-mode-editor' : ''}`}>
       <input
         className="editor-title"
