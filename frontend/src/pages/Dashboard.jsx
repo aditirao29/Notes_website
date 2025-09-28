@@ -1,9 +1,10 @@
 import React, {useEffect,useMemo,useState} from "react";
 import './Dashboard.css';
 import { FaChevronDown, FaSearch, FaPlus, FaFolder, FaFile, FaFolderOpen, FaBars, FaTimes, FaSun, FaMoon,FaTrash } from 'react-icons/fa';
-import API,{deleteNote,deleteFolder} from "../api";
+import API,{deleteNote,deleteFolder, generateFlashcards} from "../api";
 import Editor from "../components/Editor";
 import fileicon from "../assets/file_icon.png";
+import FlashcardDisplay from "../components/FlashcardDisplay";
 
 function Dashboard() {
   const [folders,setFolders] = useState([]);
@@ -19,6 +20,8 @@ function Dashboard() {
   const [showNewFolderMenu, setShowNewFolderMenu] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false); 
+  const [generatedFlashcards,setGeneratedFlashcards] = useState(null);
+  const [isGeneratingFlashcards,setIsGeneratingFlashcards] = useState(false);
 
   useEffect(() => {
     loadRoot();
@@ -205,6 +208,23 @@ function Dashboard() {
     </>
   );
 
+  const handleGenerateFlashcards = async (noteContent) => {
+    if(isGeneratingFlashcards||!noteContent) return;
+    setIsGeneratingFlashcards(true);
+    setGeneratedFlashcards(null);
+    try {
+      const {data} = await generateFlashcards(noteContent);
+      setGeneratedFlashcards(data.flashcards);
+    }
+    catch(error) {
+      console.error("Error generating flashcards: ",error);
+      alert("Failed to generate flashcards. Please try again.");
+    }
+    finally {
+      setIsGeneratingFlashcards(false);
+    }
+  }
+
   const breadcrumbs = useMemo(() => {
     if (!selectedFolderId) return ["My Folders"];
     const selectedFolder = folders.find(f => f._id === selectedFolderId);
@@ -371,6 +391,8 @@ function Dashboard() {
                     }
                   }}
                   onSummarize={handleSummarizeNote}
+                  onGenerateFlashcards = {handleGenerateFlashcards}
+                  isGeneratingFlashcards = {isGeneratingFlashcards}
                   isDarkMode={isDarkMode}
                 />
               ) : (
@@ -379,6 +401,13 @@ function Dashboard() {
                   <h1 id="placeholder-text">Create a File</h1>
                   <img className="fileicon" src={fileicon} alt="file icon" />
                 </div>
+              )}
+              {generatedFlashcards && generatedFlashcards.length>0 && (
+                <FlashcardDisplay
+                  cards={generatedFlashcards}
+                  onClose={()=>setGeneratedFlashcards(null)}
+                  isDarkMode={isDarkMode}
+                />
               )}
               </div>
             </div>

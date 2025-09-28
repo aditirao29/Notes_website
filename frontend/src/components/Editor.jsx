@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { FaPlus, FaTrash } from "react-icons/fa";
 import "./Editor.css";
 
-export default function Editor({ note, folder, onChange, onSummarize, isDarkMode }) {
+export default function Editor({ note, folder, onChange, onSummarize,onGenerateFlashcards,isGeneratingFlashcards, isDarkMode }) {
   const isTodoFolder = folder?.category === "todo";
   
   const [title, setTitle] = useState(note.title);
@@ -78,16 +78,7 @@ export default function Editor({ note, folder, onChange, onSummarize, isDarkMode
 
   if (isTodoFolder) {
     return (
-      <div className={`editor-root ${isDarkMode ? 'dark-mode-editor' : ''}`}> 
-        <div className="editor-controls">
-            <button
-                className="delete-item-btn" 
-                onClick={() => onDelete(note._id)}
-                title="Delete Note Permanently"
-            >
-                <FaTrash />
-            </button>
-        </div>
+      <div className={`editor-root ${isDarkMode ? 'dark-mode-editor' : ''}`}>
         <input
           className="editor-title"
           value={title}
@@ -130,15 +121,6 @@ export default function Editor({ note, folder, onChange, onSummarize, isDarkMode
 
   return (
     <div className={`editor-root ${isDarkMode ? 'dark-mode-editor' : ''}`}>
-      <div className="editor-controls">
-            <button
-                className="delete-item-btn" 
-                onClick={() => onDelete(note._id)}
-                title="Delete Note Permanently"
-            >
-                <FaTrash />
-            </button>
-        </div>
       <input
         className="editor-title"
         value={title}
@@ -152,6 +134,13 @@ export default function Editor({ note, folder, onChange, onSummarize, isDarkMode
         placeholder="Start typing…"
       />
       <div className="summary-controls">
+        <button
+            className="summarize-btn flashcard-btn"
+            onClick={() => onGenerateFlashcards(content)}
+            disabled={isGeneratingFlashcards || !content}
+        >
+            {isGeneratingFlashcards ? "Generating Cards..." : "Generate Flashcards"}
+        </button>
         <button
           className="summarize-btn"
           onClick={handleSummarize}

@@ -23,4 +23,5 @@ export const createNote = (title, folderId, content = "") =>
 export const getNote = (id) => API.get(`/notes/${id}`);
 export const deleteFolder = (id) => API.delete(`/folders/${id}`);
 export const deleteNote = (id) => API.delete(`/notes/${id}`);
+export const generateFlashcards = (noteContent) => API.post("/notes/generate-flashcards",{content:noteContent});
 export default API;

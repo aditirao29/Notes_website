@@ -645,6 +645,7 @@ i {
     margin-left: auto;
     flex-shrink: 0; 
     margin-left: 10px; 
+    outline: none !important;
 }
 
 .folder-item:hover .delete-item-btn,

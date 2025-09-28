@@ -192,3 +192,8 @@
 .editor-root.dark-mode-editor .checklist-input::placeholder {
   color: #cccccc;
 }
+
+.summary-controls {
+  display: flex;
+  gap: 1rem;
+}
