@@ -91,4 +91,21 @@ router.post("/:id/summarize", auth, async (req, res) => {
     }
 });
 
+router.delete("/:id", auth, async (req, res) => {
+    try {
+        const noteId = req.params.id;
+        const result = await Note.deleteOne({ 
+            _id: noteId, 
+            owner: req.user._id 
+        });
+        if (result.deletedCount === 0) {
+            return res.status(404).json({ message: "Note not found or unauthorized" });
+        }
+        res.status(200).json({ message: "Note permanently deleted" });
+    } catch (err) {
+        console.error("Error deleting note:", err);
+        res.status(500).json({ message: err.message });
+    }
+});
+
 module.exports = router;

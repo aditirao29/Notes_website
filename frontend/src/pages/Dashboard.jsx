@@ -1,7 +1,7 @@
 import React, {useEffect,useMemo,useState} from "react";
 import './Dashboard.css';
-import { FaChevronDown, FaSearch, FaPlus, FaFolder, FaFile, FaFolderOpen, FaBars, FaTimes, FaSun, FaMoon } from 'react-icons/fa';
-import API from "../api";
+import { FaChevronDown, FaSearch, FaPlus, FaFolder, FaFile, FaFolderOpen, FaBars, FaTimes, FaSun, FaMoon,FaTrash } from 'react-icons/fa';
+import API,{deleteNote,deleteFolder} from "../api";
 import Editor from "../components/Editor";
 import fileicon from "../assets/file_icon.png";
 
@@ -103,15 +103,45 @@ function Dashboard() {
   const handleSummarizeNote = async (noteId) => {
     try {
       const { data } = await API.post(`/notes/${noteId}/summarize`);
-      
       setNotes((prev) => [data, ...prev]);
-
       setSelectedNote(data);
-      
     } catch (error) {
       console.error("Error generating summary:", error);
     }
   };
+
+  const handleFolderDelete = async (folderId) => {
+        if (!window.confirm("WARNING: Delete this folder and all its contents permanently?")) {
+            return;
+        }
+        try {
+            await deleteFolder(folderId);
+            await loadRoot();
+            if (selectedFolderId === folderId) {
+                setSelectedFolderId(null);
+                setSelectedNote(null);
+            }
+        } catch (error) {
+            console.error("Failed to delete folder permanently:", error);
+            alert("Failed to delete folder.");
+        }
+    };
+
+  const handleNoteDelete = async (noteId) => {
+        if (!window.confirm("WARNING: Delete this note permanently?")) {
+            return;
+        }
+        try {
+            await deleteNote(noteId);
+            setNotes((prev) => prev.filter((note) => note._id !== noteId));
+            if (selectedNote?._id === noteId) {
+                setSelectedNote(null);
+            }
+        } catch (error) {
+            console.error("Failed to delete note permanently:", error);
+            alert("Failed to delete note.");
+        }
+    };
 
   const renderFolderList = (category, open, toggleOpen, title) => (
     <>
@@ -158,6 +188,16 @@ function Dashboard() {
                   </span>
                 )}
               </div>
+              <button
+                className="delete-item-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleFolderDelete(f._id);
+                }}
+                title="Delete Folder Permanently"
+              >
+                <FaTrash/>
+              </button>
             </div>
           ))}
         </div>
@@ -212,10 +252,6 @@ function Dashboard() {
           {renderFolderList("todo", todoOpen, () => setTodoOpen(!todoOpen), "To-Do Lists")}
           {renderFolderList("journal", journalOpen, () => setJournalOpen(!journalOpen),"Daily Journal")}
           {renderFolderList("other", otherOpen, () => setOtherOpen(!otherOpen),"Other Folders")}
-          
-          <div className="other-items">
-            <p>Trash</p>
-          </div>
         </nav>
       </aside>
 
@@ -296,6 +332,16 @@ function Dashboard() {
                         </span>
                       )}
                     </div>
+                    <button
+                      className="delete-item-btn"
+                      onClick={(e)=>{
+                        e.stopPropagation();
+                        handleNoteDelete(n._id);
+                      }}
+                      title="Delete Note Permanently"
+                    >
+                      <FaTrash/>
+                    </button>
                   </li>
                 ))}
                 {notes.length === 0 && (

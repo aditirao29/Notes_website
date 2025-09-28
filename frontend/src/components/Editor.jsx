@@ -79,6 +79,15 @@ export default function Editor({ note, folder, onChange, onSummarize, isDarkMode
   if (isTodoFolder) {
     return (
       <div className={`editor-root ${isDarkMode ? 'dark-mode-editor' : ''}`}> 
+        <div className="editor-controls">
+            <button
+                className="delete-item-btn" 
+                onClick={() => onDelete(note._id)}
+                title="Delete Note Permanently"
+            >
+                <FaTrash />
+            </button>
+        </div>
         <input
           className="editor-title"
           value={title}
@@ -121,6 +130,15 @@ export default function Editor({ note, folder, onChange, onSummarize, isDarkMode
 
   return (
     <div className={`editor-root ${isDarkMode ? 'dark-mode-editor' : ''}`}>
+      <div className="editor-controls">
+            <button
+                className="delete-item-btn" 
+                onClick={() => onDelete(note._id)}
+                title="Delete Note Permanently"
+            >
+                <FaTrash />
+            </button>
+        </div>
       <input
         className="editor-title"
         value={title}

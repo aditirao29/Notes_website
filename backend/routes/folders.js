@@ -19,7 +19,6 @@ router.post("/", auth, async (req, res) => {
   }
 });
 
-// Get root folders + notes
 router.get("/", auth, async (req, res) => {
     try {
         const folders = await Folder.find({ parentFolder: null, owner: req.user._id });
@@ -29,7 +28,6 @@ router.get("/", auth, async (req, res) => {
     }
 });
 
-// Get folders + notes inside a specific folder
 router.get("/:id", auth, async (req, res) => {
     try {
         const parentId = req.params.id;
@@ -54,5 +52,30 @@ router.patch("/:id",auth,async (req,res) => {
     res.status(500).json({message: err.message });
   }
 })
+
+router.delete("/:id", auth, async (req, res) => {
+    try {
+        const folderId = req.params.id;
+        const noteResult = await Note.deleteMany({ 
+            folder: folderId, 
+            owner: req.user._id 
+        });
+        const folderResult = await Folder.deleteOne({ 
+            _id: folderId, 
+            owner: req.user._id 
+        });
+
+        if (folderResult.deletedCount === 0) {
+            return res.status(404).json({ message: "Folder not found or unauthorized" });
+        }
+
+        res.status(200).json({ 
+            message: `Folder and ${noteResult.deletedCount} notes permanently deleted` 
+        });
+    } catch (err) {
+        console.error("Error deleting folder:", err);
+        res.status(500).json({ message: "Server error" });
+    }
+});
 
 module.exports = router;
