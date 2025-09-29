@@ -5,8 +5,8 @@ from transformers import pipeline
 
 class NoteInput(BaseModel):
     text: str
-    max_length: int = 1000
-    min_length: int = 50
+    max_length: int = 300
+    min_length: int = 100
 
 app = FastAPI()
 
@@ -17,16 +17,21 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-summarizer = pipeline("summarization", model="t5-small")
+summarizer = pipeline("summarization", model="t5-large", device_map="auto")
 
-def chunk_text(text, max_chars=800, overlap=100):
-    if len(text) <= max_chars:
+def chunk_text_by_sentences(text: str, max_sentences: int = 5, overlap: int = 1):
+    sentences = text.split(". ")
+    if len(sentences) <= max_sentences:
         return [text]
+
     chunks = []
     start = 0
-    while start < len(text):
-        end = start + max_chars
-        chunks.append(text[start:end])
+    while start < len(sentences):
+        end = start + max_sentences
+        chunk = ". ".join(sentences[start:end])
+        if not chunk.endswith("."):
+            chunk += "."
+        chunks.append(chunk)
         start = end - overlap
         if start < 0:
             start = 0
@@ -38,15 +43,29 @@ def summarize(payload: NoteInput):
     if not text:
         return {"summary": ""}
 
-    chunks = chunk_text(text, max_chars=800, overlap=100)
+    chunks = chunk_text_by_sentences(text, max_sentences=5, overlap=1)
+
     partial_summaries = []
     for chunk in chunks:
-        out = summarizer(chunk, max_length=payload.max_length, min_length=payload.min_length, do_sample=False)
+        out = summarizer(
+            chunk,
+            max_length=payload.max_length,
+            min_length=payload.min_length,
+            do_sample=False,
+            repetition_penalty=1.5
+        )
         partial_summaries.append(out[0]["summary_text"])
 
+    combined_summary = " ".join(partial_summaries)
+
     if len(partial_summaries) > 1:
-        combined = " ".join(partial_summaries)
-        final = summarizer(combined, max_length=payload.max_length, min_length=payload.min_length, do_sample=False)
-        return {"summary": final[0]["summary_text"]}
+        final_out = summarizer(
+            combined_summary,
+            max_length=payload.max_length * 2,
+            min_length=payload.min_length,
+            do_sample=False,
+            repetition_penalty=1.5
+        )
+        return {"summary": final_out[0]["summary_text"]}
     else:
-        return {"summary": partial_summaries[0]}
+        return {"summary": combined_summary}
