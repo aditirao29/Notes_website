@@ -23,11 +23,10 @@ The primary goal is to transform passive notes into active, actionable study too
 ## Key Features
 
 * **Full CRUD & Organization:** Seamless management of notes and folders with categorized organization ("Studies," "To-Do," "Journal," "Other").
-* **Real-time Search:** Instantly filter notes by title within the current folder.
 * **AI Summarization:** Utilizes the **T5-large** transformer model (hosted via FastAPI) to condense lengthy text passages into concise summaries.
 * **AI Flashcard Generation:** Leverages **Google Gemini 2.5 Flash** for sophisticated prompt engineering to convert notes into structured question-and-answer pairs for self-testing.
 * **To-Do Functionality:** Dedicated checklist note format for task management.
-* **Responsive UI:** Supports an optimal viewing experience across desktop and mobile browsers, including a **Dark Mode** option.
+* **User-Friendly Interface:** Intuitive and clean design for easy navigation and note management, including a **Dark Mode** option.
 
 ## Technology Stack
 
@@ -58,7 +57,7 @@ Each service requires specific environment variables to function correctly and c
 
 * **Express Backend:**
    * MONGODB_URI= `your-mongodb-uri`
-   * JWT_SECRET=`your-jwt-secret`
+   * JWT_PRIVATE_KEY=`your-jwt-private-key`
    * ENCRYPTION_KEY=`your-encryption-key`
 * **FastAPI AI Service:** Must set the `GEMINI_API_KEY`.
 
