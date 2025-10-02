@@ -6,14 +6,11 @@ const axios = require("axios");
 
 const { GoogleGenerativeAI } = require("@google/generative-ai"); 
 
-// Read the API Key (Correct, but ensure it's defined in .env)
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
 if (!process.env.GEMINI_API_KEY) {
     console.error("\n*** CRITICAL SETUP ERROR: GEMINI_API_KEY is NOT loaded. Check your .env file and server.js dotenv config. ***\n");
 }
-// 2. Initialize the AI Client
-// The SDK uses the 'apiKey' parameter to authenticate all subsequent requests.
 
 const ai = new GoogleGenerativeAI(GEMINI_API_KEY); 
 function cleanSummary(text) {
@@ -138,7 +135,6 @@ router.post("/generate-flashcards", auth, async (req, res) => {
 Output **only valid JSON**: an array of objects with fields "question" and "answer".
 Do not include any extra text, explanation, or comments.`;
 
-        // 1. --- AI CALL ---
         const response = await model.generateContent({
             contents: [
                 { role: "user", parts: [{ text: systemPrompt + "\n\nSTUDY NOTES:\n" + content }] }
@@ -146,16 +142,11 @@ Do not include any extra text, explanation, or comments.`;
             generationConfig
         });
 
-        // 2. --- SAFE EXTRACTION AND EMPTY CHECK ---
-        // Attempt to extract the text content and trim it immediately.
-        // If content is null/undefined at any point, use an empty string.
         const jsonText = (
             response?.response?.candidates?.[0]?.content?.parts?.[0]?.text || ""
         ).trim();
         
-        // This is the check that is incorrectly triggering
-        if (jsonText === '') { 
-            // Check if blocked by safety settings
+        if (jsonText === '') {
             const blockReason = response.promptFeedback?.blockReason;
             if (blockReason) {
                 console.error("Gemini API Error: Request was blocked.", blockReason, response.promptFeedback.safetyRatings);
@@ -165,27 +156,21 @@ Do not include any extra text, explanation, or comments.`;
                 });
             }
 
-            // Fallback for genuinely empty response (which is still impossible if your log is accurate)
-            // Changing the message slightly to reflect the state.
             console.error("Gemini API Error: Extracted text was empty or only whitespace. Full Response:", JSON.stringify(response, null, 2));
             return res.status(500).json({
                 message: "AI failed to generate any usable text content. The output was empty after trimming.",
             });
         }
         console.log("Gemini raw response:", JSON.stringify(response, null, 2));
-        // 3. --- PARSE ---
         let flashcards;
         
         try {
-            // jsonText is guaranteed to be a non-empty string here.
             flashcards = JSON.parse(jsonText);
 
             if (!Array.isArray(flashcards) || flashcards.length === 0) {
-                // If parsing worked but the structure is wrong
                 throw new Error("Parsed data is not a valid flashcard array or is empty.");
             }
         } catch (parseError) {
-            // Log the 'unparsable response' error here, where it belongs.
             console.error("Gemini API Error: AI response failed JSON parsing/validation:", parseError, "Raw Response:", jsonText);
             return res.status(500).json({
                 message: "AI returned invalid JSON format. Please try again.",
@@ -193,7 +178,6 @@ Do not include any extra text, explanation, or comments.`;
             });
         }
 
-        // 4. --- RETURN FLASHCARDS ---
         res.status(200).json({ flashcards });
 
     } catch (err) {
